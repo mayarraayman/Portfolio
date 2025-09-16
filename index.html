@@ -39,7 +39,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
         }
         
         /* Header & Navigation */
@@ -117,6 +117,64 @@
             color: var(--text);
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%;
+            height: 100vh;
+            background: var(--dark-card);
+            z-index: 999;
+            padding: 5rem 2rem;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+        }
+        
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .mobile-nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* Hero Section */
@@ -159,8 +217,10 @@
         }
         
         .profile-image {
-            width: 350px;
-            height: 350px;
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            aspect-ratio: 1/1;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
@@ -185,7 +245,7 @@
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
@@ -203,7 +263,7 @@
         
         .btn {
             display: inline-block;
-            padding: 1rem 2.5rem;
+            padding: 1rem 2rem;
             background: var(--primary);
             color: white;
             border-radius: 50px;
@@ -213,6 +273,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            text-align: center;
         }
         
         .btn:hover {
@@ -225,25 +286,32 @@
             background: transparent;
             border: 2px solid var(--primary);
             color: var(--primary);
-            margin-left: 1rem;
+            margin-left: 0;
+            margin-top: 1rem;
         }
         
         .btn-outline:hover {
             background: rgba(108, 99, 255, 0.1);
         }
         
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
         /* Section Styles */
         section {
-            padding: 6rem 0;
+            padding: 4rem 0;
         }
         
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
         
         .section-title {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
@@ -265,13 +333,14 @@
             color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
         
         /* About Section */
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr;
+            gap: 3rem;
             align-items: center;
         }
         
@@ -287,7 +356,7 @@
         
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
         }
         
@@ -326,7 +395,7 @@
         
         .service-card {
             background: var(--dark-card);
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 15px;
             text-align: center;
             transition: var(--transition);
@@ -365,7 +434,7 @@
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
         
@@ -555,7 +624,7 @@
         
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
         
@@ -613,8 +682,8 @@
         /* Contact Section */
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr;
+            gap: 3rem;
         }
         
         .contact-info {
@@ -643,7 +712,7 @@
         
         .contact-form {
             background: var(--dark-card);
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 15px;
         }
         
@@ -681,14 +750,17 @@
         /* Footer */
         footer {
             background: var(--dark-accent);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 2rem;
         }
         
         .footer-content {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            gap: 2rem;
             margin-bottom: 3rem;
+            text-align: center;
         }
         
         .social-links {
@@ -715,7 +787,50 @@
         }
         
         /* Responsive Design */
-        @media (max-width: 992px) {
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+            
+            section {
+                padding: 5rem 0;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+            
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            
+            .hero-buttons {
+                flex-wrap: nowrap;
+            }
+            
+            .btn-outline {
+                margin-left: 1rem;
+                margin-top: 0;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-btn {
+                display: block;
+            }
+            
             .hero-content {
                 flex-direction: column-reverse;
                 text-align: center;
@@ -726,10 +841,15 @@
                 margin: 0 auto 2.5rem;
             }
             
-            .about-grid,
-            .contact-grid {
+            .skills-grid {
                 grid-template-columns: 1fr;
-                gap: 3rem;
+            }
+            
+            .services-grid,
+            .projects-grid,
+            .achievements-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
             }
             
             .timeline::after {
@@ -752,39 +872,30 @@
             }
         }
         
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
             }
             
-            .menu-btn {
-                display: block;
+            .hero {
+                padding-top: 70px;
             }
             
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 2.2rem;
             }
             
-            .skills-grid {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 1.8rem;
             }
             
-            .services-grid,
-            .projects-grid,
-            .achievements-grid,
-            .testimonials-grid {
-                grid-template-columns: 1fr;
+            .profile-image {
+                max-width: 280px;
             }
             
-            .btn-outline {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
-            
-            .footer-content {
+            .project-links {
                 flex-direction: column;
-                gap: 2rem;
-                text-align: center;
+                gap: 0.5rem;
             }
         }
         
@@ -835,6 +946,19 @@
             </nav>
         </div>
     </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -1182,6 +1306,54 @@
     </footer>
 
     <script>
+        // Mobile menu functionality
+        const menuBtn = document.querySelector('.menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const overlay = document.getElementById('overlay');
+        
+        menuBtn.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            
+            // Change icon based on menu state
+            const icon = menuBtn.querySelector('i');
+            if (mobileNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking on overlay
+        overlay.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            const icon = menuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Reset menu icon
+                const icon = menuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+        
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
